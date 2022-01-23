@@ -34,9 +34,7 @@
         </script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-700">
-            @include('layouts.navigation')
-
+        <div class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-700">
             <!-- Page Heading -->
             <header class="bg-white shadow dark:bg-gray-800">
                 <div class="flex px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -45,7 +43,7 @@
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="flex grow" x-data="{ snackbarVisible: false }">
                 {{ $slot }}
             </main>
         </div>

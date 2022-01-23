@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::resource("/posts", PostController::class);
+// Add some new routes to edit posts by UUID
+Route::get("post/{uuid}/edit", [PostController::class, "edit"]);
+Route::patch("post/{uuid}", [PostController::class, "update"]);
+Route::post("/post/{uuid}/publish", [PostController::class, "publish"]);
 
 require __DIR__.'/auth.php';

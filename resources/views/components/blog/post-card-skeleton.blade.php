@@ -1,4 +1,4 @@
-<div class="overflow-hidden shadow-lg rounded-lg h-90 w-60 md:w-80 cursor-pointer m-auto duration-200 hover:scale-105">
+<div class="overflow-hidden shadow-lg rounded-lg h-90 w-60 sm:w-80 cursor-pointer m-auto duration-200 hover:scale-105">
     <a href="#" class="w-full block h-full">
         <div class="h-40 w-full bg-gray-200 animate-pulse"></div>
         <div class="bg-white dark:bg-gray-800 w-full p-4">

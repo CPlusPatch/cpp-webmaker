@@ -1,6 +1,10 @@
-<div class="overflow-hidden shadow-lg rounded-lg h-90 w-60 md:w-80 cursor-pointer m-auto duration-200 hover:scale-105">
+<div class="overflow-hidden shadow-lg rounded-lg h-90 w-60 sm:w-80 cursor-pointer m-auto duration-200 hover:scale-105">
     <a href="#" class="w-full block h-full">
-        <img alt="blog photo" src="{{ $imgSrc }}" class="max-h-40 w-full object-cover"/>
+        @if ($image != "")
+        <img alt="blog photo" src="{{ $image }}" class="max-h-40 w-full object-cover"/>
+        @else
+        <div class="h-40 w-full bg-gray-200 animate-pulse"></div>
+        @endif
         <div class="bg-white dark:bg-gray-800 w-full p-4">
             <p class="text-indigo-500 text-md font-medium">
                 Article
