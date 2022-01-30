@@ -6,6 +6,7 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use EditorJS\EditorJS;
 
 class PostController extends Controller
 {
@@ -73,26 +74,61 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified post data in JSOn format
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Post  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function showJSON($uuid)
     {
-        //
+        if (auth()->user()->role == "admin") {
+            $post = Post::where("uuid", $uuid)->get()[0];
+            return response()->json($post->content);
+        }
+        return abort(401);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  $uuid
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($uuid)
+    {
+        if (auth()->user()->role == "admin") {
+            return view("posts.editor.index", ["uuid" => $uuid]);
+        }
+
+        return abort(401);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request)
     {
-        //
+        if (auth()->user()->role == "admin") {
+            /* try {
+                // Initialize Editor backend and validate structure
+                $editor = new EditorJS($request->content, );
+                // Get sanitized blocks (according to the rules from configuration)
+                $blocks = $editor->getBlocks();
+                
+            } catch (\Exception $e) {
+                return response($e, 500);
+            } */
+            $uuid = $request->uuid;
+            $post = Post::where("uuid", $uuid)->get()[0];
+            $post->content = $request->content;
+            $post->update();
+            return response(204);
+        }
+
+        return abort(401);
     }
 
     /**

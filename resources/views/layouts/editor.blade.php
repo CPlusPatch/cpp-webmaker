@@ -30,6 +30,9 @@
                     },
                 },
                 darkMode: "class",
+                corePlugins: {
+                    preflight: false,
+                }
             };
         </script>
     </head>
@@ -43,7 +46,7 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex grow" x-data="{ snackbarVisible: false }">
+            <main class="flex justify-center grow">
                 {{ $slot }}
             </main>
         </div>

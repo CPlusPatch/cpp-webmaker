@@ -13,6 +13,9 @@ module.exports = {
             },
         },
     },
-
+    corePlugins: {
+        preflight: false,
+    },
+    darkMode: "class",
     plugins: [require('@tailwindcss/forms')],
 };

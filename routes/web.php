@@ -25,7 +25,8 @@ Route::get('/dashboard', function () {
 Route::resource("/posts", PostController::class);
 // Add some new routes to edit posts by UUID
 Route::get("post/{uuid}/edit", [PostController::class, "edit"]);
+Route::get("post/{uuid}", [PostController::class, "showJSON"]);
 Route::patch("post/{uuid}", [PostController::class, "update"]);
-Route::post("/post/{uuid}/publish", [PostController::class, "publish"]);
+Route::post("post/{uuid}/publish", [PostController::class, "publish"]);
 
 require __DIR__.'/auth.php';
