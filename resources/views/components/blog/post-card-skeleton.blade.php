@@ -1,7 +1,7 @@
-<div class="overflow-hidden shadow-lg rounded-lg h-90 w-60 sm:w-80 cursor-pointer m-auto duration-200 hover:scale-105">
+<div class="overflow-hidden shadow-lg rounded-lg h-90 w-72 sm:w-80 cursor-pointer m-auto duration-200 hover:scale-105">
     <a href="#" class="w-full block h-full">
         <div class="h-40 w-full bg-gray-200 animate-pulse"></div>
-        <div class="bg-white dark:bg-gray-800 w-full p-4">
+        {{-- <div class="bg-white dark:bg-gray-800 w-full p-4">
             <div class="bg-gray-200 w-20 animate-pulse h-3 rounded-2xl mb-2">
             </div>
             <div class="bg-gray-200 w-32 animate-pulse h-4 rounded-2xl mb-2">
@@ -26,6 +26,6 @@
 					</div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </a>
 </div>

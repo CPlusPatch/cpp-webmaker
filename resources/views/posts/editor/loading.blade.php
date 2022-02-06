@@ -38,7 +38,7 @@
 				}
 			})
 			.then((res) => {
-				window.location.replace(`/posts/${res}/edit`);
+				window.location.replace(`/post/${res}/edit`);
 			})
 			.catch((err) => {
 				console.error(err);

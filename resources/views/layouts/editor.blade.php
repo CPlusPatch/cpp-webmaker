@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>Loading editor... | {{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -30,9 +30,6 @@
                     },
                 },
                 darkMode: "class",
-                corePlugins: {
-                    preflight: false,
-                }
             };
         </script>
     </head>
@@ -40,7 +37,7 @@
         <div class="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-700">
             <!-- Page Heading -->
             <header class="bg-white shadow dark:bg-gray-800">
-                <div class="flex px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="flex px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8 flex-row">
                     {{ $header }}
                 </div>
             </header>

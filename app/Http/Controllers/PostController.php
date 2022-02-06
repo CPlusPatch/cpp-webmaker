@@ -48,7 +48,7 @@ class PostController extends Controller
             // Fill request with default data
             $post = $request->all();
             $post["title"] = "Unnamed post";
-            $post["content"] = "Blank content";
+            $post["content"] = '{"time":"1643650513791","blocks":[{"id":"Z2FHA2toiP","type":"header","data":{"text":"My new page","level":"2"}},{"id":"vC00K_O8NC","type":"paragraph","data":{"text":"Hello. This is your new page! Now, get ready to write anything you would like!<br>"}},{"id":"cxgUBcxliz","type":"header","data":{"text":"Key features of the editor","level":"3"}},{"id":"qX6Se8T0H4","type":"list","data":{"style":"unordered","items":["Block-styled editor<br>","<b>Fully <\/b><i>formattable <b>text<\/b><\/i><br>","Changes are auto saved as you I typed this<br>"]}}],"version":"2.22.2"}';
             $post["slug"] = rand(100000000, 999999999) . "-" . Str::slug($post["title"]); // Generate random slug
             $post["created_at"] = Carbon::now();
             $post["published"] = false;
@@ -68,9 +68,18 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($slug)
     {
-        //
+        $post = Post::where("slug", $slug)->get()[0];
+        if (!$post->published) {
+            if (auth()->user()->role == "admin") {
+                return view("posts.show", ["post" => $post]);
+            }
+        } else if (auth()->user()) {
+            return view("posts.show", ["post" => $post]);
+        }
+
+        return abort(401);
     }
 
     /**
@@ -82,8 +91,15 @@ class PostController extends Controller
     public function showJSON($uuid)
     {
         if (auth()->user()->role == "admin") {
-            $post = Post::where("uuid", $uuid)->get()[0];
-            return response()->json($post->content);
+            try {
+                $post = Post::where("uuid", $uuid)->get()[0];
+            } catch (\Exception $e) {
+                return response("No post was found", 404);
+            }
+            return response()->json([
+                "title" => $post->title,
+                "content" => $post->content
+            ]);
         }
         return abort(401);
     }
@@ -112,17 +128,16 @@ class PostController extends Controller
     public function update(Request $request)
     {
         if (auth()->user()->role == "admin") {
-            /* try {
-                // Initialize Editor backend and validate structure
-                $editor = new EditorJS($request->content, );
-                // Get sanitized blocks (according to the rules from configuration)
-                $blocks = $editor->getBlocks();
-                
-            } catch (\Exception $e) {
-                return response($e, 500);
-            } */
+            $request->validate([
+                "title" => "required|max:255",
+                "content" => "required|max:4096",
+            ]);
             $uuid = $request->uuid;
             $post = Post::where("uuid", $uuid)->get()[0];
+            if ($request->title != $post->title) {
+                $post->title = $request->title;
+                $post->slug = rand(100000000, 999999999) . "-" . Str::slug($request->title);
+            }
             $post->content = $request->content;
             $post->update();
             return response(204);
@@ -137,10 +152,11 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request)
     {
+        $uuid = $request->uuid;
+        $post = Post::where("uuid", $uuid)->get()[0];
         $post->delete();
-
-        return redirect("/dashboard");
+        return response("", 204);
     }
 }

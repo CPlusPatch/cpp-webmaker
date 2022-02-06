@@ -12,6 +12,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
@@ -49,5 +50,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
     </body>
 </html>

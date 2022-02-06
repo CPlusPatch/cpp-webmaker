@@ -23,10 +23,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource("/posts", PostController::class);
+Route::get("posts/{slug}", [PostController::class, "show"]);
 // Add some new routes to edit posts by UUID
 Route::get("post/{uuid}/edit", [PostController::class, "edit"]);
 Route::get("post/{uuid}", [PostController::class, "showJSON"]);
 Route::patch("post/{uuid}", [PostController::class, "update"]);
 Route::post("post/{uuid}/publish", [PostController::class, "publish"]);
+Route::delete("post/{uuid}", [PostController::class, "destroy"]);
 
 require __DIR__.'/auth.php';
