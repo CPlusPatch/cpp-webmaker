@@ -14,6 +14,7 @@
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.10",
         "syntaxphoenix/editorjs-symfony-parser-bundle": "^0.0.12",
+        "twig/twig": "3.3.8",
         "urodoz/truncate-html": "@stable"
     },
     "require-dev": {
