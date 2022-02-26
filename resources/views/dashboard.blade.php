@@ -17,6 +17,10 @@
         </a>
     </x-slot>
 
+    <!-- <div class="relative flex flex-row w-full mx-auto mt-6 mb-4 max-w-7xl sm:px-6 lg:px-8">
+        <h1 class="text-2xl font-semibold">Recent photos</h1>
+    </div>
+
     <div x-data="{swiper: null}" x-init="swiper = new Swiper($refs.container, {
       loop: true,
       slidesPerView: 1,
@@ -36,11 +40,11 @@
           spaceBetween: 0,
         },
       },
-    })" class="relative max-w-7xl mx-auto flex flex-row">
+    })" class="relative flex flex-row mx-auto max-w-7xl">
         <div class="absolute inset-y-0 left-0 z-10 flex items-center">
             <button @click="swiper.slidePrev()"
-                class="bg-white -ml-2 lg:-ml-4 flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
-                <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-left w-6 h-6">
+                class="flex items-center justify-center w-10 h-10 -ml-2 bg-white rounded-full shadow lg:-ml-4 focus:outline-none">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 chevron-left">
                     <path fill-rule="evenodd"
                         d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                         clip-rule="evenodd"></path>
@@ -48,33 +52,32 @@
             </button>
         </div>
 
-        <div class="swiper-container w-full" x-ref="container">
-            <div class="swiper-wrapper flex">
-                <!-- Slides -->
-                <div class="swiper-slide p-4">
-                    <div class="flex flex-col rounded shadow overflow-hidden">
+        <div class="w-full swiper-container" x-ref="container">
+            <div class="flex swiper-wrapper">
+                <div class="p-4 swiper-slide">
+                    <div class="flex flex-col overflow-hidden rounded shadow">
                         <div class="flex-shrink-0">
-                            <img class="h-48 w-full object-cover"
+                            <img class="object-cover w-full h-48"
                                 src="https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80"
                                 alt="">
                         </div>
                     </div>
                 </div>
 
-                <div class="swiper-slide p-4">
-                    <div class="flex flex-col rounded shadow overflow-hidden">
+                <div class="p-4 swiper-slide">
+                    <div class="flex flex-col overflow-hidden rounded shadow">
                         <div class="flex-shrink-0">
-                            <img class="h-48 w-full object-cover"
+                            <img class="object-cover w-full h-48"
                                 src="https://images.unsplash.com/photo-1598951092651-653c21f5d0b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
                                 alt="">
                         </div>
                     </div>
                 </div>
 
-                <div class="swiper-slide p-4">
-                    <div class="flex flex-col rounded shadow overflow-hidden">
+                <div class="p-4 swiper-slide">
+                    <div class="flex flex-col overflow-hidden rounded shadow">
                         <div class="flex-shrink-0">
-                            <img class="h-48 w-full object-cover"
+                            <img class="object-cover w-full h-48"
                                 src="https://images.unsplash.com/photo-1598946423291-ce029c687a42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
                                 alt="">
                         </div>
@@ -85,27 +88,27 @@
 
         <div class="absolute inset-y-0 right-0 z-10 flex items-center">
             <button @click="swiper.slideNext()"
-                class="bg-white -mr-2 lg:-mr-4 flex justify-center items-center w-10 h-10 rounded-full shadow focus:outline-none">
-                <svg viewBox="0 0 20 20" fill="currentColor" class="chevron-right w-6 h-6">
+                class="flex items-center justify-center w-10 h-10 -mr-2 bg-white rounded-full shadow lg:-mr-4 focus:outline-none">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 chevron-right">
                     <path fill-rule="evenodd"
                         d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                         clip-rule="evenodd"></path>
                 </svg>
             </button>
         </div>
+    </div> -->
+
+    <div class="relative flex flex-row w-full mx-auto mt-4 max-w-7xl px-6 lg:px-8">
+        <h1 class="text-2xl font-semibold">Recent posts</h1>
     </div>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div id="posts" class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-                @for ($i = 0; $i < 12; $i++) <x-blog.post-card-skeleton>
-                    </x-blog.post-card>
-                    @endfor
-            </div>
+            @livewire("latest-posts")
         </div>
     </div>
 
-    <script>
+    {{-- <script>
         $(() => {
             $.ajaxSetup({
                 headers: {
@@ -113,21 +116,27 @@
                 }
             });
 
-            $.get({
-                    url: "/posts",
-                    data: {
-                        page: 1,
-
-                    }
-                })
-                .then((res) => {
-                    $("#posts").html(res);
-                })
-                .catch((err) => {
-                    snackbar("There was an error fetching posts. Please try again.")
-                    console.error(err);
-                });
+            /* $.get({
+				url: "/posts",
+				data: {
+					page: 1,
+				}
+			}).then((res) => {
+				$("#posts").html(res);
+			}).catch((err) => {
+				snackbar("There was an error fetching posts. Please try again.")
+				console.error(err);
+			}); */
         });
 
-    </script>
+    </script> --}}
+	<script>
+		$(() => {
+			$.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+		});
+	</script>
 </x-app-layout>

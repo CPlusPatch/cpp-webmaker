@@ -1,6 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
 @layer utilities {
 	.link-growing-underline {
@@ -15,5 +16,11 @@
 	.link-growing-underline:hover {
 		background-size: 100% 3px;
 		background-position: 0 100%
+	}
+}
+
+@layer utilities {
+	.font-noto-sans {
+		font-family: 'Noto Sans'
 	}
 }

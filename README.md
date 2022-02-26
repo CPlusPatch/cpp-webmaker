@@ -10,6 +10,7 @@ Clone the repo and run
 composer install
 npm install
 ```
+
 Optionally, run ```npm audit``` to check for vulnerabilities
 Then, you will need to create a .env file with your database credentials and a key.
 Create a database named `cpp_webmaker`and add a user with access to it.
@@ -27,6 +28,12 @@ For now, you can create a user at `127.0.0.1/register`. If you would like that u
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+## TODO
+- [ ] **Editor**
+  - [ ] Add the ability to upload images
+  - [ ] Add banner upload functionality
+  - [ ] Add more plugin support
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

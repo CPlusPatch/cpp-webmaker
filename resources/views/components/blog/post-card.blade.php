@@ -1,29 +1,39 @@
-<div x-data="{isOpen: false }" @mouseover="isOpen = true" @mouseover.away="isOpen = false" id="post-{{ $uuid }}">
-    <div class="relative z-10 hover:z-20 m-auto overflow-hidden duration-200 rounded-lg shadow-lg cursor-pointer w-72 sm:w-80 hover:scale-105">
-        <a href="/posts/{{ $slug }}" class="relative block w-full">
-            @if ($image != "")
-            <div class="w-full h-40 bg-[url('{{ $image }}')] relative flex items-end bg-center bg-cover">
-                <div class="absolute bottom-0 left-0 right-0 p-5 mt-20 bg-gradient-to-b from-transparent to-gray-600">
-                    <h3 class="z-50 text-xl text-white">{{ $title }}</h3>
-                   {{--  <h5 class="z-50 text-white text-md">Example label</h5> --}}
-                </div>
-            </div>
-            @else
-            <div class="relative flex items-end w-full h-40 bg-gray-200 bg-center bg-cover">
-                <div class="absolute bottom-0 left-0 right-0 p-5 mt-20 bg-gradient-to-b from-transparent to-gray-600">
-                    <h3 class="z-50 text-xl text-white">{{ $title }}</h3>
-                   {{--  <h5 class="z-50 text-white text-md">Example label</h5> --}}
-                </div>
-            </div>
-            @endif
+<div id="post-{{ $uuid }}">
+    <div class="relative z-[{{ $z }}] m-auto duration-200 shadow-lg w-80 sm:w-96 hover:scale-105">
+        <div class="relative block w-full">
             
-            <div x-show="isOpen"
-                x-transition:enter="transition-all ease-in-out duration-300" 
-                x-transition:enter-start="h-0" 
-                x-transition:enter-end="h-auto" 
-                x-transition:leave="transition-all ease-in-out duration-300" 
-                x-transition:leave-start="h-auto" 
-                x-transition:leave-end="h-0">
+            <div class="w-full h-48 @if ($image != "") bg-[url('{{ $image }}')] @else bg-gray-200 @endif relative flex items-end bg-center bg-cover rounded-md ">
+                <div class="flex flex-row items-end justify-between w-full p-5 mt-20 rounded-md bg-gradient-to-b from-transparent to-gray-600">
+                    <a href="/posts/{{ $slug }}" class="z-30 text-xl text-white cursor-pointer">{{ $title }}</a>
+					<x-dropdown align="right" width="auto" collapseOnClick="false">
+						<x-slot name="trigger">
+							<button class="flex items-center p-1 text-sm font-medium text-black bg-white rounded-sm shadow-lg">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 16 16">
+									<path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+								</svg>
+							</button>
+						</x-slot>
+	
+						<x-slot name="content">
+							<x-dropdown-button id="delete-{{ $uuid }}" class="flex flex-row items-center justify-center w-full text-rose-700">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 mr-2" viewBox="0 0 16 16">
+									<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+  									<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+								</svg>
+								Delete
+							</x-dropdown-button>
+							<x-dropdown-button class="flex flex-row items-center justify-start w-full text-blue-700" @click="event.preventDefault(); window.location.replace('/post/{{ $uuid }}/edit')">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 mr-2" viewBox="0 0 16 16">
+									<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+								</svg>
+								Edit
+							</x-dropdown-button>
+						</x-slot>
+					</x-dropdown>
+                </div>
+            </div>
+            
+            {{-- <div x-show="isOpen">
                 <div class="z-50 w-full p-4 overflow-hidden bg-white dark:bg-gray-800">
                     <p class="font-medium text-indigo-500 text-md">
                         Article
@@ -74,39 +84,41 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </a>
+            </div> --}}
+        </div>
     </div>
+	<script>
+		$(() => {
+			function delete_{{ str_replace("-", "_", $uuid) }}() {
+				$("#delete-{{ $uuid }}").on("click", function(event) {
+					event.preventDefault();
+					var button = this;
+					$(button).removeClass("hover:bg-gray-100 text-rose-700 focus:bg-gray-100 text-gray-700").addClass("bg-rose-700 text-white").text("Sure?");
+					$(button).on("mouseleave", function() {
+						$(button).removeClass("bg-rose-700 text-white").addClass("text-rose-700 hover:bg-gray-100 focus:bg-gray-100 text-gray-700").html('<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 mr-2" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg> Delete');
+						$(button).off("mouseleave click");
+						delete_{{ str_replace("-", "_", $uuid) }}();
+					})
+					$(button).on("click", function(event) {
+						event.preventDefault();
+						$(button).off("mouseleave");
+						$(button).text('Deleting...');
+						$.post({
+							url: "/post/{{ $uuid }}",
+							data: {
+								_method: 'DELETE',
+							}
+						}).then((res) => {
+							snackbar("Post deleted successfully!");
+							$("#post-{{ $uuid }}").remove();
+						}).catch((err) => {
+							console.error(err);
+							snackbar("There was an error deleting the post")
+						});
+					});
+				});
+			}
+			delete_{{ str_replace("-", "_", $uuid) }}();
+		});
+	</script>
 </div>
-<script>
-    $(() => {
-        function delete_{{ str_replace("-", "_", $uuid) }}() {
-            $("#delete-{{ $uuid }}").on("click", function() {
-                var button = this;
-                $(button).removeClass("text-rose-700").addClass("bg-rose-700 text-white").text("Are you sure?");
-                $(button).on("mouseleave", function() {
-                    $(button).removeClass("bg-rose-700 text-white").addClass("text-rose-700").html('<svg xmlns="http:\/\/www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6 pr-1" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/><path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/></svg>Delete');
-                    $(button).off("mouseleave click");
-                    delete_{{ str_replace("-", "_", $uuid) }}();
-                })
-                $(button).on("click", function() {
-                    $(button).off("mouseleave");
-                    $(button).html('<svg xmlns="http:\/\/www.w3.org/2000/svg" fill="currentColor" class="w-6 h-6 pr-1 animate-pulse" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>Deleting');
-                    $.post({
-                        url: "/post/{{ $uuid }}",
-                        data: {
-                            _method: 'DELETE',
-                        }
-                    }).then((res) => {
-                        snackbar("Post deleted successfully!");
-                        $("#post-{{ $uuid }}").remove();
-                    }).catch((err) => {
-                        console.error(err);
-                        snackbar("There was an error deleting the post")
-                    });
-                });
-            });
-        }
-        delete_{{ str_replace("-", "_", $uuid) }}();
-    });
-</script>

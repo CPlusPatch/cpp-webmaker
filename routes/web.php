@@ -23,12 +23,18 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::resource("/posts", PostController::class);
-Route::get("posts/{slug}", [PostController::class, "show"]);
-// Add some new routes to edit posts by UUID
-Route::get("post/{uuid}/edit", [PostController::class, "edit"]);
-Route::get("post/{uuid}", [PostController::class, "showJSON"]);
-Route::patch("post/{uuid}", [PostController::class, "update"]);
-Route::post("post/{uuid}/publish", [PostController::class, "publish"]);
-Route::delete("post/{uuid}", [PostController::class, "destroy"]);
 
+Route::controller(PostController::class)->group(function () {
+    Route::get("posts/{slug}", "show");
+	// Add some new routes to edit posts by UUID
+	Route::get("post/{uuid}/edit", "edit");
+	Route::get("post/{uuid}", "showJSON");
+	Route::patch("post/{uuid}", "update");
+	Route::post("post/{uuid}/publish", "publish");
+	Route::delete("post/{uuid}", "destroy");
+});
+
+/* Route::prefix('cdn')->group(function () {
+	
+}); */
 require __DIR__.'/auth.php';

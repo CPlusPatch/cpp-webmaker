@@ -51,6 +51,7 @@
 				"delimiter@latest",
 				"marker@latest",
 				"link@latest",
+				"image@latest"
 			];
 			var sendSavedData = async (editor) => {
 				$("#changes-saved-text, #saving-text").toggleClass("hidden");
@@ -94,9 +95,16 @@
 								inlineToolbar: true,
 							},
 							delimiter: Delimiter,
-							/* image: {
-								class: ImageTool,
+							image: {
+							class: ImageTool,
+								config: {
+									endpoints: {
+										byFile: '/cdn/upload', // Your backend file uploader endpoint
+										byUrl: '/cdn/url', // Your endpoint that provides uploading by Url
+									}
+								}
 							},
+							/*
 							quote: {
 								class: Quote,
 								inlineToolbar: true,

@@ -22,10 +22,8 @@
     },
     "dependencies": {
         "@tailwindcss/typography": "^0.5.1",
-        "acorn": "^8.7.0",
         "check-peer-dependencies": "^4.1.0",
         "node-forge": "1.2",
-        "selfsigned": "^2.0.0",
         "webpack-dev-server": "^4.7.2"
     }
 }

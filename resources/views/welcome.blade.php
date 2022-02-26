@@ -1,46 +1,38 @@
 <x-guest-layout>
-    <div class="flex flex-col items-center justify-center h-screen space-y-10 bg-gray-100">
-        <div class="p-6 bg-white rounded md:shadow-lg shadow:none w-96">
-            <h1 class="text-3xl font-bold leading-normal">Sign in</h1>
-            <p class="text-sm">Sign in to access your feed</p>
-    
-            @error('password')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
+    <div class="bg-gradient-to-tl from-blue-700 via-blue-800 to-gray-900 relative overflow-hidden h-screen">
+		@include('layouts.navigation', ["textColor" => "white"])
+        <div class="container mx-auto px-6 md:px-12 relative z-10 flex items-center py-10 xl:py-15 space-between">
+            <div class="lg:w-3/5 xl:w-2/5 flex flex-col items-start relative z-10">
+                <span class="font-noto-sans font-extralight uppercase text-white text-md">
+                    A <strong class="font-black">CPlusPatch</strong> project
                 </span>
-            @enderror
-    
-            <form class="mt-5 space-y-2" method="POST" action="{{ route('login') }}">
-                @csrf
-                <div class="relative mb-3">
-                    <label for="email" class="pl-3 mb-1 text-base text-gray-500 label cursor-text">Email</label>
-                    <input id="email" class="w-full rounded px-3 border border-gray-500 pt-2 pb-2 focus:outline-none input active:outline-none @error('email') ring border-transparent ring-red-500 @enderror" type="text" value="{{ old('email') }}" name="email" required autocomplete="email" autofocus>
-                </div>
-                
-                <div class="relative mb-3">
-                    <label for="password" class="pl-3 mb-1 text-base text-gray-500 label cursor-text">Password</label>
-                    <input id="password" class="w-full rounded px-3 border border-gray-500 pt-2 pb-2 focus:outline-none input active:outline-none @error('email') ring border-transparent ring-red-500 @enderror" name="password" type="password" required/>
-                    @error('email')
-                        <p class="px-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
-    
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} class="transition-all duration-200 rounded">
-    
-                    <label class="form-check-label" for="remember">
-                        {{ __('Remember Me') }}
-                    </label>
-                </div>
-    
-                @if (Route::has('password.request'))
-                <div class="-m-2">
-                    <a class="px-2 py-1 font-bold text-blue-700 rounded-md hover:bg-blue-200" href="{{ route('password.request') }}"">Forgot password?</a>
-                </div>
-                @endif
-    
-                <button type="submit" class="w-full py-3 font-bold text-center text-white transition-all duration-150 bg-blue-700 hover:bg-blue-900 hover:scale-105 rounded-xl">Sign in</button>
-            </form>
+                <h1 class="font-bold font-noto-sans text-6xl sm:text-7xl text-white leading-tight mt-4 mb-6">
+                    Create your own website
+                </h1>
+				@auth
+				<a href="/dashboard" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-150 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg hover:scale-105">
+					Go to Dashboard
+				</a>
+				@endauth
+				@guest
+				<a href="/register" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-150 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg hover:scale-105">
+					Sign up now!
+				</a>
+				@endguest
+
+            </div>
+			<div class="lg:w-2/5 xl:w-3/5 flex z-10 h-96 items-end flex-col-reverse">
+				<div class="hidden xl:flex xl:w-3/5 m-3 rounded-lg bg-gray-300 animate-pulse h-full w-full items-center justify-center">
+					<h3 class="font-black text-gray-600 text-xl flex items-center justify-center">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-5 w-5 mr-3" viewBox="0 0 16 16">
+							<path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+							<path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
+						</svg>
+						Demo images here
+					</h3>
+				</div>
+			</div>
         </div>
     </div>
+
 </x-guest-layout>
