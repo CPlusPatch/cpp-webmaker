@@ -4324,7 +4324,7 @@
                 "symfony/stopwatch": "^5.4|^6.0",
                 "symfony/translation": "^5.4|^6.0",
                 "symfony/translation-contracts": "^1.1|^2|^3",
-                "twig/twig": "^2.13|^3.0.4"
+                "twig/twig": "^3.3.10"
             },
             "suggest": {
                 "symfony/browser-kit": "",
@@ -5702,7 +5702,7 @@
                 "symfony/console": "^5.4|^6.0",
                 "symfony/process": "^5.4|^6.0",
                 "symfony/uid": "^5.4|^6.0",
-                "twig/twig": "^2.13|^3.0.4"
+                "twig/twig": "^3.3.10"
             },
             "suggest": {
                 "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
@@ -5855,7 +5855,7 @@
                 "masterminds/html5": "^2.7",
                 "symfony/flex": "^1.12",
                 "symfony/framework-bundle": "^5.0",
-                "twig/twig": "3.3"
+                "twig/twig": "3.3.10"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8"
@@ -5928,7 +5928,7 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.3.0",
+            "version": "v3.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
@@ -6023,7 +6023,7 @@
                 "phpunit/phpunit": "~4",
                 "symfony/dependency-injection": "~2.4",
                 "symfony/http-kernel": "~2.4",
-                "twig/twig": "~1"
+                "twig/twig": "^3.3.10"
             },
             "type": "library",
             "autoload": {
