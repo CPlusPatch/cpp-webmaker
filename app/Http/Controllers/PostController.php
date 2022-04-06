@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use EditorJS\EditorJS;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Rule as ValidationRule;
 
 class PostController extends Controller
 {
@@ -29,7 +31,11 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view("posts.editor.loading");
+		if (auth()->user() && auth()->user()->role == "admin") {
+			return view("posts.editor.loading");
+		}
+
+		return abort(401);
     }
 
     /**
@@ -40,19 +46,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        if (auth()->user()->role == "admin") {
+        if (auth()->user() && auth()->user()->role == "admin") {
             $request->validate([
                 "author" => "required"
             ]);
 
             // Fill request with default data
             $post = $request->all();
-            $post["title"] = "Unnamed post";
-            $post["content"] = '{"time":"1643650513791","blocks":[{"id":"Z2FHA2toiP","type":"header","data":{"text":"My new page","level":"2"}},{"id":"vC00K_O8NC","type":"paragraph","data":{"text":"Hello. This is your new page! Now, get ready to write anything you would like!<br>"}},{"id":"cxgUBcxliz","type":"header","data":{"text":"Key features of the editor","level":"3"}},{"id":"qX6Se8T0H4","type":"list","data":{"style":"unordered","items":["Block-styled editor<br>","<b>Fully <\/b><i>formattable <b>text<\/b><\/i><br>","Changes are auto saved as you I typed this<br>"]}}],"version":"2.22.2"}';
-            $post["slug"] = rand(100000000, 999999999) . "-" . Str::slug($post["title"]); // Generate random slug
+            $post["content"] = '{"time":"1645884737743","blocks":[{"id":"Z2FHA2toiP","type":"header","data":{"text":"No name","level":"2"}},{"id":"vC00K_O8NC","type":"paragraph","data":{"text":"Hello, this is your new page! Now, get ready to write anything you like!<br>"}},{"id":"cxgUBcxliz","type":"header","data":{"text":"Key features of the editor","level":"3"}},{"id":"qX6Se8T0H4","type":"list","data":{"style":"unordered","items":["Block-styled<br>","<b>Fully <\/b><mark class=\"cdx-marker\"><b><\/b><i>formattable <b><\/b><\/i><\/mark><i><b>text<\/b><\/i><br>","Changes are auto saved as you type<br>"]}}],"version":"2.23.2"}';
+            $post["slug"] = rand(100000000, 999999999) . "-" . Str::slug("New post"); // Generate random slug
             $post["created_at"] = Carbon::now();
-            $post["published"] = false;
             $post["uuid"] = Str::uuid()->toString();
+			$post["prefs"] = json_encode([
+				"visibility" => "private",
+				"banner" => "",
+				"title" => "New post",
+				"locked" => false,
+			]);
+			//return json_encode($post["prefs"]);
 
             Post::create($post);
 
@@ -71,11 +82,10 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = Post::where("slug", $slug)->get()[0];
-        if (!$post->published) {
-            if (auth()->user()->role == "admin") {
-                return view("posts.show", ["post" => $post]);
-            }
-        } else if (auth()->user()) {
+		$prefs = json_decode($post->prefs);
+        if ($prefs->visibility == "public" || ($prefs->visibility == "restricted" && auth()->user()) || (auth()->user() && auth()->user()->role == "admin")) {
+            return view("posts.show", ["post" => $post]);
+        } else {
             return view("posts.show", ["post" => $post]);
         }
 
@@ -90,15 +100,18 @@ class PostController extends Controller
      */
     public function showJSON($uuid)
     {
-        if (auth()->user()->role == "admin") {
+        if (auth()->user() && auth()->user()->role == "admin") {
             try {
                 $post = Post::where("uuid", $uuid)->get()[0];
+				$prefs = json_decode($post->prefs);
             } catch (\Exception $e) {
                 return response("No post was found", 404);
             }
             return response()->json([
-                "title" => $post->title,
-                "content" => $post->content
+                "title" => $prefs->title,
+                "content" => $post->content,
+				"visibility" => $prefs->visibility,
+				"banner" => $prefs->banner,
             ]);
         }
         return abort(401);
@@ -112,7 +125,7 @@ class PostController extends Controller
      */
     public function edit($uuid)
     {
-        if (auth()->user()->role == "admin") {
+        if (auth()->user() && auth()->user()->role == "admin") {
             return view("posts.editor.index", ["uuid" => $uuid]);
         }
 
@@ -127,18 +140,25 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
-        if (auth()->user()->role == "admin") {
+        if (auth()->user() && auth()->user()->role == "admin") {
             $request->validate([
                 "title" => "required|max:255",
                 "content" => "required|max:4096",
+				"visibility" => ["string", ValidationRule::in(["public", "restricted", "private"])],
+				"banner" => "url|max:255",
             ]);
             $uuid = $request->uuid;
             $post = Post::where("uuid", $uuid)->get()[0];
+			$prefs = json_decode($post->prefs);
             if ($request->title != $post->title) {
-                $post->title = $request->title;
+                $prefs->title = $request->title;
                 $post->slug = rand(100000000, 999999999) . "-" . Str::slug($request->title);
             }
+			if (isset($request->visibility)) {
+				$prefs->visibility = $request->visibility;
+			}
             $post->content = $request->content;
+			$post->prefs = json_encode($prefs);
             $post->update();
             return response(204);
         }
@@ -154,9 +174,13 @@ class PostController extends Controller
      */
     public function destroy(Request $request)
     {
-        $uuid = $request->uuid;
-        $post = Post::where("uuid", $uuid)->get()[0];
-        $post->delete();
-        return response("", 204);
+		if (auth()->user() && auth()->user()->role == "admin") {
+			$uuid = $request->uuid;
+			$post = Post::where("uuid", $uuid)->get()[0];
+			$post->delete();
+			return response("", 204);
+		}
+
+		return abort(401);
     }
 }

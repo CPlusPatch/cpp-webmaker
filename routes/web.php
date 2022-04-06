@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\UserBannerController;
+use Sopamo\LaravelFilepond\Http\Controllers\FilepondController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +37,13 @@ Route::controller(PostController::class)->group(function () {
 	Route::delete("post/{uuid}", "destroy");
 });
 
+Route::controller(FileUploadController::class)->group(function() {
+	Route::post("/cdn/upload", "file");
+	Route::post("/cdn/url", "url");
+});
+
+Route::post('/cdn/fp-upload', [FilepondController::class, 'upload'])->name('filepond.upload');
+Route::post("/account/banner", [UserBannerController::class, "update"]);
 /* Route::prefix('cdn')->group(function () {
 	
 }); */

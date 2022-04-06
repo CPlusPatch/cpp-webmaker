@@ -17,8 +17,8 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" :textColor="$textColor">
-                        {{ __('Dashboard') }}
+					<x-nav-link href="/" :textColor="$textColor">
+                        {{ __("Latest posts") }}
                     </x-nav-link>
                 </div>
             </div>
@@ -31,6 +31,9 @@
 							@auth
 							<div>{{ Auth::user()->name }}</div>
 							@endauth
+							@guest
+							<div>Not signed in</div>
+							@endguest
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -39,18 +42,27 @@
                             </div>
                         </button>
                     </x-slot>
-
+					
                     <x-slot name="content">
+						@auth
+						<x-dropdown-link href="/dashboard">
+							{{  __("Dashboard") }}
+						</x-dropdown-link> 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Sign Out') }}
                             </x-dropdown-link>
                         </form>
+						@endauth
+						@guest
+						<x-dropdown-link :href="route('login')">
+							{{ __('Sign In') }}
+						</x-dropdown-link>
+						@endguest
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -91,7 +103,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();" :color="$textColor">
-                        {{ __('Log Out') }}
+                        {{ __('Sign Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
@@ -100,7 +112,7 @@
 			<div class="mt-3 space-y-1">
                 <!-- Authentication -->
                 <x-responsive-nav-link :href="route('login')">
-                        {{ __('Sign in') }}
+                        {{ __('Sign In') }}
                 </x-responsive-nav-link>
             </div>
 			@endguest

@@ -6,4 +6,4 @@ window.snackbar = async (content, color = "gray-800") => {
 	$(".snackbar").removeClass("ease-out duration-200").addClass("ease-in duration-75");
 	await new Promise(r => setTimeout(r, 75));
 	$(".snackbar").removeClass("opacity-100 scale-100").addClass("opacity-0 scale-95");
-}
+};

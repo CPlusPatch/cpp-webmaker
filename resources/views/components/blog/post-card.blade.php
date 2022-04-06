@@ -1,10 +1,11 @@
 <div id="post-{{ $uuid }}">
-    <div class="relative z-[{{ $z }}] m-auto duration-200 shadow-lg w-80 sm:w-96 hover:scale-105">
+    <div class="relative m-auto duration-200 shadow-lg w-80 sm:w-96 hover:scale-105" style="z-index: {{ $z }}">
         <div class="relative block w-full">
             
-            <div class="w-full h-48 @if ($image != "") bg-[url('{{ $image }}')] @else bg-gray-200 @endif relative flex items-end bg-center bg-cover rounded-md ">
+            <div class="w-full h-48 @if ($image == "") bg-gray-200 @endif relative flex items-end bg-center bg-cover rounded-md" @if ($image != "") style="background-image: url('{{ $image }}')" @endif>
                 <div class="flex flex-row items-end justify-between w-full p-5 mt-20 rounded-md bg-gradient-to-b from-transparent to-gray-600">
                     <a href="/posts/{{ $slug }}" class="z-30 text-xl text-white cursor-pointer">{{ $title }}</a>
+					@if(auth()->user() && auth()->user()->role == "admin")
 					<x-dropdown align="right" width="auto" collapseOnClick="false">
 						<x-slot name="trigger">
 							<button class="flex items-center p-1 text-sm font-medium text-black bg-white rounded-sm shadow-lg">
@@ -30,6 +31,7 @@
 							</x-dropdown-button>
 						</x-slot>
 					</x-dropdown>
+					@endif
                 </div>
             </div>
             
@@ -87,6 +89,7 @@
             </div> --}}
         </div>
     </div>
+	@if(auth()->user() && auth()->user()->role == "admin")
 	<script>
 		$(() => {
 			function delete_{{ str_replace("-", "_", $uuid) }}() {
@@ -121,4 +124,5 @@
 			delete_{{ str_replace("-", "_", $uuid) }}();
 		});
 	</script>
+	@endif
 </div>

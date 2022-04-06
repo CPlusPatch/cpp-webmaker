@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="flex items-center text-xl font-semibold leading-tight text-gray-800 dark:text-white grow">
-            {{ $post->title }}
+            {{ json_decode($post->prefs)->title }}
         </h2>
     </x-slot>
 

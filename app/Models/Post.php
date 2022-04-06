@@ -15,15 +15,11 @@ class Post extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
         'content',
-        'category',
         "slug",
-        "image",
         "updated_at",
-        "published",
-        "published_at",
         "uuid",
-        "author"
+        "author",
+		"prefs"
     ];
 }

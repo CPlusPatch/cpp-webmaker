@@ -4,18 +4,35 @@
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
+	"repositories": {
+        "laravel-filepond": {
+            "type": "package",
+            "package": {
+                "name": "cpluspatch/laravel-filepond",
+                "description": "Laravel backend module for filepond uploads",
+                "version": "1.0",
+                "source": {
+                    "url": "https://github.com/cpluspatch/laravel-filepond",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    },
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "illuminate/contracts": "^9.3",
         "illuminate/support": "^9.2",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.10",
         "syntaxphoenix/editorjs-symfony-parser-bundle": "^0.0.12",
-        "twig/twig": "3.3.8",
-        "urodoz/truncate-html": "@stable"
+        "twig/twig": "3.3",
+        "urodoz/truncate-html": "@stable",
+		"cpluspatch/laravel-filepond": "1.0"
     },
     "require-dev": {
         "spatie/laravel-ignition": "^1.0",
